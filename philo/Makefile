@@ -4,7 +4,7 @@ CFLAGS	=	-Wall -Wextra -Werror
 RM		=	rm -rf
 
 OBJ_DIR	=	obj
-SRC_PHL	=	main.c
+SRC_PHL	=	main.c check.c init.c utils.c
 
 SRCS	=	$(addprefix src/, $(SRC_PHL))
 
