@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 18:02:56 by mortins-          #+#    #+#             */
-/*   Updated: 2023/11/06 18:28:56 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/11/09 16:20:36 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,12 @@ int	ft_atoi(const char *str)
 	if ((num * neg > 2147483647) || (num * neg < -2147483648))
 		return (-1);
 	return (num * neg);
+}
+
+long long	get_time(void)
+{
+	struct timeval	time;
+
+	gettimeofday(&time, NULL);
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
