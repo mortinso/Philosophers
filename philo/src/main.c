@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 15:53:22 by mortins-          #+#    #+#             */
-/*   Updated: 2023/11/09 18:03:57 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/11/13 16:55:44 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	join_threads(t_table *table)
 		if (pthread_join(table->threads[i++], NULL) != 0)
 			return (1);
 	}
+	return (0);
 }
 
 void	free_table(t_table *table)

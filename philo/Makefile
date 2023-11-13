@@ -10,6 +10,8 @@ SRCS	=	$(addprefix src/, $(SRC_PHL))
 
 OBJS	=	$(addprefix $(OBJ_DIR)/, $(SRC_PHL:%.c=%.o))
 
+INC		=	-pthread
+
 GREEN	=	"\033[0;32m"
 YELLOW	=	"\033[1;33m"
 RED		=	"\033[0;31m"
@@ -19,7 +21,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	@echo $(YELLOW)"Compiling..."$(NC)
-	@$(CC) $(CFLAGS) $(SRCS) -o $(NAME)
+	@$(CC) $(CFLAGS) $(INC) $(SRCS) -o $(NAME)
 	@echo $(GREEN)"Philosophers ready!"$(NC)
 
 $(OBJ_DIR)/%.o: $(SRCS)

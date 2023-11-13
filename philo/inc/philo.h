@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 15:53:26 by mortins-          #+#    #+#             */
-/*   Updated: 2023/11/09 17:59:32 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/11/13 16:59:10 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,11 @@ void		verify_arguments(char **argv);
 
 // init.c
 t_table		*table_init(int argc, char **argv);
+void		mutex_init(t_table *table);
 int			create_threads(t_table *table);
 
 // routine.c
-void		routine(t_philo philo);
+void		*routine(void *var);
 
 // utils.c
 int			ft_atoi(const char *str);

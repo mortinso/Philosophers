@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 17:50:24 by mortins-          #+#    #+#             */
-/*   Updated: 2023/11/09 17:57:35 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/11/13 16:56:35 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	create_threads(t_table *table)
 			return (1);
 		index++;
 	}
+	return (0);
 }
 
 void	mutex_init(t_table *table)
