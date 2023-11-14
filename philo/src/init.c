@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 17:50:24 by mortins-          #+#    #+#             */
-/*   Updated: 2023/11/14 17:15:01 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/11/14 18:37:23 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	table_var_init(t_table *table, char **argv, int argc)
 	int	index;
 
 	table->dead_philo = 0;
+	table->all_satisfied = 0;
 	table->tt_die = ft_atoi(argv[2]) * 1000;
 	table->tt_eat = ft_atoi(argv[3]) * 1000;
 	table->tt_sleep = ft_atoi(argv[4]) * 1000;

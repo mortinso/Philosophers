@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 17:35:39 by mortins-          #+#    #+#             */
-/*   Updated: 2023/11/14 17:17:09 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/11/14 18:44:03 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,64 @@
 
 void	*supervise(void *var)
 {
-	t_philo	*philos;
+	t_philo	*philo;
 
-	philos = (t_philo *)var;
+	philo = (t_philo *)var;
 	while (1)
 	{
-		if (check_starved(philos))
+		if (check_starved(philo))
 			break;
+		if (check_satisfied(philo))
+			break ;
 	}
 	return (NULL);
 }
 
-int	check_starved(t_philo *philos)
+int	check_starved(t_philo *philo)
 {
 	int	i;
 
 	i = 0;
-	while(i < philos->table->num_philo)
+	while(i < philo->table->num_philo)
 	{
-		pthread_mutex_lock(&philos->table->eating);
-		if (get_time() - philos->table->time_start - philos[i].last_meal > (philos->table->tt_die / 1000))
+		pthread_mutex_lock(&philo->table->eating);
+		if (get_time() - philo->table->time_start - philo[i].last_meal > (philo->table->tt_die / 1000))
 		{
-			pthread_mutex_lock(&philos->table->exit);
-			philos->table->dead_philo = 1;
-			pthread_mutex_unlock(&philos->table->exit);
-			printf("%lld\t%d died\n", get_time() - philos->table->time_start, philos[i].id + 1);
-			pthread_mutex_unlock(&philos->table->eating);
+			pthread_mutex_lock(&philo->table->exit);
+			philo->table->dead_philo = 1;
+			pthread_mutex_unlock(&philo->table->exit);
+			printf("%lld\t%d died\n", get_time() - philo->table->time_start, philo[i].id + 1);
+			pthread_mutex_unlock(&philo->table->eating);
 			return (1);
 		}
-		pthread_mutex_unlock(&philos->table->eating);
+		pthread_mutex_unlock(&philo->table->eating);
+		i++;
+	}
+	return (0);
+}
+
+int	check_satisfied(t_philo *philo)
+{
+	int	i;
+	int	satisfied;
+
+	if (!philo->table->meal_cap)
+		return (0);
+	i = 0;
+	satisfied = 0;
+	while(i < philo->table->num_philo)
+	{
+		pthread_mutex_lock(&philo->table->eating);
+		if (philo[i].n_meals >= philo->table->meal_cap)
+			satisfied++;
+		pthread_mutex_unlock(&philo->table->eating);
+		if (satisfied == philo->table->num_philo)
+		{
+			pthread_mutex_lock(&philo->table->exit);
+			philo->table->all_satisfied = 1;
+			pthread_mutex_unlock(&philo->table->exit);
+			return (1);
+		}
 		i++;
 	}
 	return (0);

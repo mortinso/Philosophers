@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 15:53:26 by mortins-          #+#    #+#             */
-/*   Updated: 2023/11/14 16:52:29 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/11/14 17:59:32 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_table
 	pthread_t		*threads;
 	t_philo			*philos;
 	int				dead_philo;
+	int				all_satisfied;
 	int				num_philo;
 	int				tt_die;
 	int				tt_eat;
@@ -53,6 +54,7 @@ typedef struct s_table
 // check.c
 void		*supervise(void *var);
 int			check_starved(t_philo *philos);
+int			check_satisfied(t_philo *philo);
 void		verify_arguments(char **argv);
 
 // init.c
@@ -61,6 +63,7 @@ void		mutex_init(t_table *table);
 int			create_threads(t_table *table);
 
 // routine.c
+void		logger(t_philo *philo, char *str);
 void		*routine(void *philo);
 
 // utils.c
