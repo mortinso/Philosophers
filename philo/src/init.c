@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 17:50:24 by mortins-          #+#    #+#             */
-/*   Updated: 2023/11/13 16:56:35 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/11/14 17:15:01 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int	create_threads(t_table *table)
 
 	index = 0;
 	table->time_start = get_time();
+	if (pthread_create(&table->supervisor, NULL, supervise, table->philos) != 0)
+		return (1);
 	while (index < table->num_philo)
 	{
 		if (pthread_create(&table->threads[index], NULL, routine, \
@@ -33,14 +35,28 @@ void	mutex_init(t_table *table)
 	int	index;
 
 	index = 0;
+	pthread_mutex_init(&table->eating, NULL);
+	pthread_mutex_init(&table->exit, NULL);
 	while (index < table->num_philo)
-		pthread_mutex_init(&table->forks[index++], NULL);
+	{
+		pthread_mutex_init(&table->forks[index], NULL);
+		index++;
+	}
+}
+
+t_philo	philo_table(t_table *table)
+{
+	t_philo	philo;
+
+	philo.table = table;
+	return (philo);
 }
 
 void	table_var_init(t_table *table, char **argv, int argc)
 {
 	int	index;
 
+	table->dead_philo = 0;
 	table->tt_die = ft_atoi(argv[2]) * 1000;
 	table->tt_eat = ft_atoi(argv[3]) * 1000;
 	table->tt_sleep = ft_atoi(argv[4]) * 1000;
@@ -51,7 +67,7 @@ void	table_var_init(t_table *table, char **argv, int argc)
 	index = 0;
 	while (index < table->num_philo)
 	{
-		table->philos[index].table = table;
+		table->philos[index] = philo_table(table);
 		table->philos[index].id = index;
 		table->philos[index].last_meal = 0;
 		table->philos[index].n_meals = 0;
