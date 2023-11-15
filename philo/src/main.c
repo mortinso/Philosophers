@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 15:53:22 by mortins-          #+#    #+#             */
-/*   Updated: 2023/11/14 17:15:57 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/11/15 17:42:56 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 int	join_threads(t_table *table)
 {
-	int	i;
+	int	index;
 
-	i = 0;
-	while (i < table->num_philo)
+	index = 0;
+	while (index < table->num_philo)
 	{
-		if (pthread_join(table->threads[i++], NULL) != 0)
+		if (pthread_join(table->threads[index++], NULL) != 0)
 			return (1);
 	}
 	if (pthread_join(table->supervisor, NULL) != 0)
@@ -43,7 +43,7 @@ int	main(int argc, char **argv)
 
 	if (argc == 1)
 		return (printf("Correct usage:	./philo <philos_number> <death_time>" \
-			" <eat_time> <sleep_time>\n"));
+			" <eat_time> <sleep_time> <<times_philos_must_eat>>\n"));
 	else if (argc < 5 || argc > 6)
 		return (printf("Wrong number of arguments\n"));
 	verify_arguments(argv);

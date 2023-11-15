@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 17:35:39 by mortins-          #+#    #+#             */
-/*   Updated: 2023/11/14 18:44:03 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/11/15 21:03:24 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@ int	check_starved(t_philo *philo)
 	while(i < philo->table->num_philo)
 	{
 		pthread_mutex_lock(&philo->table->eating);
-		if (get_time() - philo->table->time_start - philo[i].last_meal > (philo->table->tt_die / 1000))
+		if (elapsed_time(philo) - philo[i].last_meal > philo->table->tt_die)
 		{
 			pthread_mutex_lock(&philo->table->exit);
 			philo->table->dead_philo = 1;
 			pthread_mutex_unlock(&philo->table->exit);
-			printf("%lld\t%d died\n", get_time() - philo->table->time_start, philo[i].id + 1);
+			printf("%lld\t%i died\n", elapsed_time(philo), philo[i].id + 1);
 			pthread_mutex_unlock(&philo->table->eating);
 			return (1);
 		}

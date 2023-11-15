@@ -6,11 +6,16 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 18:02:56 by mortins-          #+#    #+#             */
-/*   Updated: 2023/11/09 16:20:36 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/11/15 21:04:12 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
+
+long long	elapsed_time(t_philo *philo)
+{
+	return (get_time() - philo->table->start_time);
+}
 
 int	ft_atoi(const char *str)
 {

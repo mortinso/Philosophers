@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 15:53:26 by mortins-          #+#    #+#             */
-/*   Updated: 2023/11/14 17:59:32 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/11/15 21:04:04 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct s_table
 	int				tt_eat;
 	int				tt_sleep;
 	int				meal_cap;
-	long long		time_start;
+	long long		start_time;
 }	t_table;
 
 //---------------------------------FUNCTIONS------------------------------------
@@ -69,5 +69,6 @@ void		*routine(void *philo);
 // utils.c
 int			ft_atoi(const char *str);
 long long	get_time(void);
+long long	elapsed_time(t_philo *philo);
 
 #endif
