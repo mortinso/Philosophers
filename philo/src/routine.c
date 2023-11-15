@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:53:11 by mortins-          #+#    #+#             */
-/*   Updated: 2023/11/15 21:02:36 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/11/15 23:16:09 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,20 @@ void	eat(t_philo *philo)
 
 void	think(t_philo *philo)
 {
-	time_t	time_to_think;
+	long long	tt_think;
 
-	time_to_think = philo->table->tt_die - ((elapsed_time(philo) - philo->last_meal - philo->table->tt_eat) / 2);
-	if (time_to_think < 0)
-		time_to_think = 0;
-	if (time_to_think == 0)
-		time_to_think = 1;
-	if (time_to_think > 600)
-		time_to_think = 200;
+	if (elapsed_time(philo) < 10)
+		tt_think = 20;
+	else
+		tt_think = philo->table->tt_die - (elapsed_time(philo) - philo->last_meal) - philo->table->tt_eat;
+	if (tt_think < 0)
+		tt_think = 0;
+	else if (tt_think == 0)
+		tt_think = 1;
+	else if (tt_think > 600)
+		tt_think = 200;
 	logger(philo, "is thinking");
-	usleep(time_to_think * 1000);
+	usleep(tt_think * 1000);
 }
 
 void	*routine(void *var)
