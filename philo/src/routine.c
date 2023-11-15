@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:53:11 by mortins-          #+#    #+#             */
-/*   Updated: 2023/11/15 23:16:09 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/11/15 23:23:16 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ void	think(t_philo *philo)
 	if (elapsed_time(philo) < 10)
 		tt_think = 20;
 	else
-		tt_think = philo->table->tt_die - (elapsed_time(philo) - philo->last_meal) - philo->table->tt_eat;
+		tt_think = philo->table->tt_die - elapsed_time(philo) \
+			- philo->last_meal - philo->table->tt_eat;
 	if (tt_think < 0)
 		tt_think = 0;
 	else if (tt_think == 0)
@@ -75,17 +76,15 @@ void	*routine(void *var)
 		if (grab_forks(philo))
 			break ;
 		eat(philo);
+		pthread_mutex_unlock(&philo->table->forks[philo->r_fork]);
+		pthread_mutex_unlock(&philo->table->forks[philo->l_fork]);
 		pthread_mutex_lock(&philo->table->exit);
 		if (philo->table->dead_philo || philo->table->all_satisfied)
 		{
 			pthread_mutex_unlock(&philo->table->exit);
-			pthread_mutex_unlock(&philo->table->forks[philo->r_fork]);
-			pthread_mutex_unlock(&philo->table->forks[philo->l_fork]);
 			break ;
 		}
 		pthread_mutex_unlock(&philo->table->exit);
-		pthread_mutex_unlock(&philo->table->forks[philo->r_fork]);
-		pthread_mutex_unlock(&philo->table->forks[philo->l_fork]);
 		logger(philo, "is sleeping");
 		usleep(philo->table->tt_sleep * 1000);
 		think(philo);

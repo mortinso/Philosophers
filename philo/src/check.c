@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 17:35:39 by mortins-          #+#    #+#             */
-/*   Updated: 2023/11/15 21:03:24 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/11/15 23:21:28 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	*supervise(void *var)
 	while (1)
 	{
 		if (check_starved(philo))
-			break;
+			break ;
 		if (check_satisfied(philo))
 			break ;
 	}
@@ -32,7 +32,7 @@ int	check_starved(t_philo *philo)
 	int	i;
 
 	i = 0;
-	while(i < philo->table->num_philo)
+	while (i < philo->table->num_philo)
 	{
 		pthread_mutex_lock(&philo->table->eating);
 		if (elapsed_time(philo) - philo[i].last_meal > philo->table->tt_die)
@@ -59,7 +59,7 @@ int	check_satisfied(t_philo *philo)
 		return (0);
 	i = 0;
 	satisfied = 0;
-	while(i < philo->table->num_philo)
+	while (i < philo->table->num_philo)
 	{
 		pthread_mutex_lock(&philo->table->eating);
 		if (philo[i].n_meals >= philo->table->meal_cap)
