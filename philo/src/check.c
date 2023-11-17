@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 17:35:39 by mortins-          #+#    #+#             */
-/*   Updated: 2023/11/15 23:21:28 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/11/16 15:44:05 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	verify_arguments(char **argv)
 	{
 		if (ft_atoi(argv[index]) <= 0)
 		{
-			printf("'%s': Numerical arguments are required\n", argv[index]);
+			printf("'%s': Invalid argument\n", argv[index]);
 			exit (1);
 		}
 		index++;

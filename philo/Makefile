@@ -29,7 +29,7 @@ $(OBJ_DIR)/%.o: $(SRCS)
 	@$(CC) $(CFLAGS) -o $@ -c $<
 
 val: $(NAME)
-	@valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all --suppressions=readline.supp ./$(NAME)
+	@valgrind --memcheck:leak-check=full --memcheck:track-origins=yes --memcheck:show-leak-kinds=all --tool=helgrind --tool=drd ./philo 4 410 200 200
 
 clean:
 	@$(RM) $(OBJS) $(OBJ_DIR)

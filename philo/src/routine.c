@@ -6,7 +6,7 @@
 /*   By: mortins- <mortins-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:53:11 by mortins-          #+#    #+#             */
-/*   Updated: 2023/11/15 23:23:16 by mortins-         ###   ########.fr       */
+/*   Updated: 2023/11/17 18:32:13 by mortins-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void	logger(t_philo *philo, char *str)
 
 int	grab_forks(t_philo *philo)
 {
-	philo->r_fork = philo->id;
-	philo->l_fork = (philo->id + 1) % philo->table->num_philo;
+	philo->l_fork = philo->id;
+	philo->r_fork = (philo->id + 1) % philo->table->num_philo;
 	pthread_mutex_lock(&philo->table->forks[philo->r_fork]);
 	logger(philo, "has taken a fork");
 	if (philo->table->num_philo == 1)
@@ -35,10 +35,10 @@ int	grab_forks(t_philo *philo)
 
 void	eat(t_philo *philo)
 {
-	logger(philo, "is eating");
 	pthread_mutex_lock(&philo->table->eating);
 	philo->last_meal = elapsed_time(philo);
 	pthread_mutex_unlock(&philo->table->eating);
+	logger(philo, "is eating");
 	usleep(philo->table->tt_eat * 1000);
 	pthread_mutex_lock(&philo->table->eating);
 	philo->n_meals++;
@@ -49,18 +49,21 @@ void	think(t_philo *philo)
 {
 	long long	tt_think;
 
-	if (elapsed_time(philo) < 10)
-		tt_think = 20;
+	pthread_mutex_lock(&philo->table->eating);
+	if (philo->n_meals == 0)
+		tt_think = philo->table->tt_eat / 2;
 	else
-		tt_think = philo->table->tt_die - elapsed_time(philo) \
-			- philo->last_meal - philo->table->tt_eat;
+		tt_think = (philo->table->tt_die / 2) - (elapsed_time(philo) \
+			- philo->last_meal);
+	pthread_mutex_unlock(&philo->table->eating);
 	if (tt_think < 0)
 		tt_think = 0;
 	else if (tt_think == 0)
 		tt_think = 1;
-	else if (tt_think > 600)
-		tt_think = 200;
+	else if (tt_think > philo->table->tt_eat)
+		tt_think = philo->table->tt_die / 2;
 	logger(philo, "is thinking");
+	//printf("\033[0;32mfor %lldms\033[0m\n", tt_think);
 	usleep(tt_think * 1000);
 }
 
@@ -69,7 +72,7 @@ void	*routine(void *var)
 	t_philo	*philo;
 
 	philo = (t_philo *)var;
-	if (philo->id % 2 == 0)
+	if (philo->id % 2 != 0)
 		think(philo);
 	while (1)
 	{
