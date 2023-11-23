@@ -60,6 +60,8 @@ void	table_var_init(t_table *table, char **argv, int argc)
 	table->tt_sleep = ft_atoi(argv[4]);
 	if (argc == 6)
 		table->meal_cap = ft_atoi(argv[5]);
+	else
+		table->meal_cap = 0;
 	index = 0;
 	while (index < table->num_philo)
 	{

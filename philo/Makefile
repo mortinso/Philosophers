@@ -1,6 +1,6 @@
 NAME	=	philo
 CC		=	@cc
-CFLAGS	=	-Wall -Wextra -Werror -g
+CFLAGS	=	-Wall -Wextra -Werror -g #-fsanitize=thread
 RM		=	rm -rf
 
 OBJ_DIR	=	obj
@@ -29,7 +29,7 @@ $(OBJ_DIR)/%.o: $(SRCS)
 	@$(CC) $(CFLAGS) -o $@ -c $<
 
 val: $(NAME)
-	@valgrind --memcheck:leak-check=full --memcheck:track-origins=yes --memcheck:show-leak-kinds=all --tool=helgrind --tool=drd ./philo 4 410 200 200
+	@valgrind --memcheck:leak-check=full --memcheck:track-origins=yes --memcheck:show-leak-kinds=all ./philo 200 800 200 200
 
 clean:
 	@$(RM) $(OBJS) $(OBJ_DIR)
@@ -41,3 +41,5 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re val
+
+#test valgrind with --tool=drd and --tool=helgrind (separately)

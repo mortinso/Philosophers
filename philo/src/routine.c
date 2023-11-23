@@ -24,11 +24,20 @@ int	grab_forks(t_philo *philo)
 {
 	philo->l_fork = philo->id;
 	philo->r_fork = (philo->id + 1) % philo->table->num_philo;
-	pthread_mutex_lock(&philo->table->forks[philo->r_fork]);
+	if (philo->id % 2 == 0)
+		pthread_mutex_lock(&philo->table->forks[philo->l_fork]);
+	else
+		pthread_mutex_lock(&philo->table->forks[philo->r_fork]);
 	logger(philo, "has taken a fork");
 	if (philo->table->num_philo == 1)
+	{
+		pthread_mutex_unlock(&philo->table->forks[philo->l_fork]);
 		return (1);
-	pthread_mutex_lock(&philo->table->forks[philo->l_fork]);
+	}
+	if (philo->id % 2 == 0)
+		pthread_mutex_lock(&philo->table->forks[philo->r_fork]);
+	else
+		pthread_mutex_lock(&philo->table->forks[philo->l_fork]);
 	logger(philo, "has taken a fork");
 	return (0);
 }
@@ -37,33 +46,26 @@ void	eat(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->table->eating);
 	philo->last_meal = elapsed_time(philo);
+	philo->n_meals++;
 	pthread_mutex_unlock(&philo->table->eating);
 	logger(philo, "is eating");
 	usleep(philo->table->tt_eat * 1000);
-	pthread_mutex_lock(&philo->table->eating);
-	philo->n_meals++;
-	pthread_mutex_unlock(&philo->table->eating);
 }
 
 void	think(t_philo *philo)
 {
 	long long	tt_think;
 
+	logger(philo, "is thinking");
 	pthread_mutex_lock(&philo->table->eating);
 	if (philo->n_meals == 0)
 		tt_think = philo->table->tt_eat / 2;
 	else
-		tt_think = (philo->table->tt_die / 2) - (elapsed_time(philo) \
-			- philo->last_meal);
+		tt_think = (philo->table->tt_die - (elapsed_time(philo) \
+			- philo->last_meal)) / 2;
 	pthread_mutex_unlock(&philo->table->eating);
-	if (tt_think < 0)
-		tt_think = 0;
-	else if (tt_think == 0)
-		tt_think = 1;
-	else if (tt_think > philo->table->tt_eat)
-		tt_think = philo->table->tt_die / 2;
-	logger(philo, "is thinking");
-	//printf("\033[0;32mfor %lldms\033[0m\n", tt_think);
+	if (tt_think > philo->table->tt_eat)
+		tt_think = philo->table->tt_eat;
 	usleep(tt_think * 1000);
 }
 
@@ -72,7 +74,7 @@ void	*routine(void *var)
 	t_philo	*philo;
 
 	philo = (t_philo *)var;
-	if (philo->id % 2 != 0)
+	if (philo->id % 2 == 0)
 		think(philo);
 	while (1)
 	{
