@@ -55,6 +55,7 @@ typedef struct s_table
 void		*supervise(void *var);
 int			check_starved(t_philo *philos);
 int			check_satisfied(t_philo *philo);
+int			check_exit(t_philo *philo);
 void		verify_arguments(char **argv);
 
 // init.c

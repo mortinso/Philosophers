@@ -83,15 +83,12 @@ void	*routine(void *var)
 		eat(philo);
 		pthread_mutex_unlock(&philo->table->forks[philo->r_fork]);
 		pthread_mutex_unlock(&philo->table->forks[philo->l_fork]);
-		pthread_mutex_lock(&philo->table->exit);
-		if (philo->table->dead_philo || philo->table->all_satisfied)
-		{
-			pthread_mutex_unlock(&philo->table->exit);
+		if (check_exit(philo))
 			break ;
-		}
-		pthread_mutex_unlock(&philo->table->exit);
 		logger(philo, "is sleeping");
 		usleep(philo->table->tt_sleep * 1000);
+		if (check_exit(philo))
+			break ;
 		think(philo);
 	}
 	return (NULL);

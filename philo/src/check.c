@@ -77,6 +77,18 @@ int	check_satisfied(t_philo *philo)
 	return (0);
 }
 
+int	check_exit(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->table->exit);
+	if (philo->table->dead_philo || philo->table->all_satisfied)
+	{
+		pthread_mutex_unlock(&philo->table->exit);
+		return (1);
+	}
+	pthread_mutex_unlock(&philo->table->exit);
+	return (0);
+}
+
 // Checks if all the arguments are valid
 void	verify_arguments(char **argv)
 {

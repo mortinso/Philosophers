@@ -20,6 +20,7 @@ NC		=	"\033[0m"
 all: $(NAME)
 
 $(NAME): $(OBJS)
+	@clear -x
 	@echo $(YELLOW)"Compiling..."$(NC)
 	@$(CC) $(CFLAGS) $(INC) $(SRCS) -o $(NAME)
 	@echo $(GREEN)"Philosophers ready!"$(NC)
@@ -29,7 +30,7 @@ $(OBJ_DIR)/%.o: $(SRCS)
 	@$(CC) $(CFLAGS) -o $@ -c $<
 
 val: $(NAME)
-	@valgrind --memcheck:leak-check=full --memcheck:track-origins=yes --memcheck:show-leak-kinds=all ./philo 200 800 200 200
+	@valgrind --memcheck:leak-check=full --memcheck:track-origins=yes --memcheck:show-leak-kinds=all ./philo 4 310 200 100
 
 clean:
 	@$(RM) $(OBJS) $(OBJ_DIR)
