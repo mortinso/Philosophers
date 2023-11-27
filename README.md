@@ -1,8 +1,4 @@
 <h1>
-	<p align="center">THIS PROJECT IS STILL IN PROGRESS</p>
-</h1>
-
-<h1>
 	<p align="center">Philosophers</p>
 	<img align="right" alt="Project in progress" src="https://img.shields.io/badge/-Project%20In%20Progress-red">
 </h1>
