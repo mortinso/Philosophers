@@ -1,6 +1,6 @@
 <h1>
 	<p align="center">Philosophers</p>
-	<img align="right" alt="Project in progress" src="https://img.shields.io/badge/-Project%20In%20Progress-red">
+	<img align="right" alt="Final Grade: 100 / 100%" src="https://img.shields.io/badge/-%20100%20%2F%20100-success">
 </h1>
 <p align="center">
 	<b><i>I never thought philosophy would be so deadly</b></i>
